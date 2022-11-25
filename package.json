@@ -1,0 +1,57 @@
+{
+  "name": "vulnerabill",
+  "version": "1.0.0",
+  "description": "Check your vulnerabill",
+  "main": "dist/index.js",
+  "bin": {
+    "vulnerabill": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "npm run bundle -- --sourcemap=inline",
+    "prod": "npm run bundle -- --minify --tree-shaking=true && npm run package",
+    "license": "license-checker --summary --onlyAllow \"0BSD;Apache*;Apache-2.0;BSD-2-Clause;BSD-3-Clause;CC0-1.0;ISC;MIT;Python-2.0\"",
+    "lint": "eslint --ext .cjs,.js,.json,.mjs,.ts,.vue --cache --cache-file .eslintcache --report-unused-disable-directives .",
+    "lint:fix": "npm run lint -- --fix",
+    "bundle": "esbuild --bundle src/cli.ts --outfile=dist/index.js --format=cjs --platform=node --target=node18",
+    "package": "pkg dist/index.js --compress Brotli --no-bytecode --public-packages \"*\" --public --output vulnerabill",
+    "test": "vitest run --coverage --logHeapUsage",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaniFoldi/vulnerabill.git"
+  },
+  "keywords": [
+    "web",
+    "vulnerability scanner",
+    "vulnerabill"
+  ],
+  "author": "DaniFoldi",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/DaniFoldi/vulnerabill/issues"
+  },
+  "homepage": "https://github.com/DaniFoldi/vulnerabill#readme",
+  "devDependencies": {
+    "@lint-my-life/eslint-config-node": "^0.1.2",
+    "@lint-my-life/eslint-config-ts": "^0.1.2",
+    "@lint-my-life/eslint-config-vitest": "^0.1.2",
+    "@types/inquirer": "^9.0.2",
+    "@types/node": "^18.11.9",
+    "@vitest/coverage-c8": "^0.24.5",
+    "esbuild": "^0.15.13",
+    "license-checker": "^25.0.1",
+    "pkg": "^5.8.0",
+    "typescript": "^4.8.4",
+    "vitest": "^0.24.5"
+  },
+  "dependencies": {
+    "commander": "^9.4.1",
+    "consola": "^2.15.3",
+    "inquirer": "^9.1.4",
+    "std-env": "^3.3.0"
+  }
+}
