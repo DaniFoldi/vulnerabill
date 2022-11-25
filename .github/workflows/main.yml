@@ -1,0 +1,16 @@
+name: Main workflow
+
+on:
+  push:
+    branches:
+    - main
+
+  pull_request:
+    branches:
+    - main
+    types:
+    - created
+    - synchronize
+
+jobs:
+  
