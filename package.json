@@ -36,22 +36,22 @@
   },
   "homepage": "https://github.com/DaniFoldi/vulnerabill#readme",
   "devDependencies": {
-    "@lint-my-life/eslint-config-node": "^0.1.2",
-    "@lint-my-life/eslint-config-ts": "^0.1.2",
-    "@lint-my-life/eslint-config-vitest": "^0.1.2",
-    "@types/inquirer": "^9.0.2",
-    "@types/node": "^18.11.9",
-    "@vitest/coverage-c8": "^0.24.5",
-    "esbuild": "^0.15.13",
+    "@lint-my-life/eslint-config-node": "^0.1.4",
+    "@lint-my-life/eslint-config-ts": "^0.1.4",
+    "@lint-my-life/eslint-config-vitest": "^0.1.4",
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.11.18",
+    "@vitest/coverage-c8": "^0.27.1",
+    "esbuild": "^0.16.17",
     "license-checker": "^25.0.1",
     "pkg": "^5.8.0",
-    "typescript": "^4.8.4",
-    "vitest": "^0.24.5"
+    "typescript": "^4.9.4",
+    "vitest": "^0.27.1"
   },
   "dependencies": {
-    "commander": "^9.4.1",
+    "commander": "^9.5.0",
     "consola": "^2.15.3",
     "inquirer": "^9.1.4",
-    "std-env": "^3.3.0"
+    "std-env": "^3.3.1"
   }
 }
