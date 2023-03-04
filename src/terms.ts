@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import inquirer from 'inquirer'
+import type { Options } from './parser'
 
 
 export function correctCode(site: string) {
@@ -9,7 +10,7 @@ export function correctCode(site: string) {
   return [ ...createHash('sha256').update(site).digest('hex').replace(site[0], '') ].reverse().join('').slice(0, 8)
 }
 
-export async function ensureTermsAccepted(options) {
+export async function ensureTermsAccepted(options: Options) {
   const accepted = options.acceptTerms && correctCode(options.site) === options.acceptTerms
   if (accepted) {
     return true
@@ -29,5 +30,4 @@ export async function ensureTermsAccepted(options) {
     }
   ])
   return answer.accept
-
 }
