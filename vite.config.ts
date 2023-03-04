@@ -8,6 +8,7 @@ export default defineConfig({
       excludeNodeModules: true,
       include: [ 'src/**' ]
     },
-    include: [ 'test/**.ts' ]
+    include: [ 'src/**' ],
+    exclude: [ 'src/cli.ts', 'src/parser.ts' ]
   }
 })
