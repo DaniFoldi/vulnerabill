@@ -12,6 +12,7 @@ export interface CustomRequest {
   body?: string
   headers?: { [key: string]: string }
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'TRACE'
+  tls: '1.0' | '1.1' | '1.2' | '1.3'
 }
 
 export interface CustomResponse {
@@ -20,12 +21,16 @@ export interface CustomResponse {
   status: number
 }
 
-function getSocket(protocol: string, ip: string, host: string): [Socket | TLSSocket, () => void] {
+function getSocket(protocol: string, ip: string, host: string, tls: CustomRequest['tls']): [Socket | TLSSocket, () => void] {
   const tcpClient = new Socket()
   if (protocol === 'http') {
     return [ tcpClient, () => tcpClient.connect(80, ip) ]
   }
-  const client = connect(443, host, { socket: tcpClient, servername: host })
+  const client = connect(443, host, { socket: tcpClient, servername: host,
+    // eslint-disable-next-line unicorn/no-nested-ternary
+    minVersion: tls === '1.0' ? 'TLSv1' : (tls === '1.1' ? 'TLSv1.1' : tls === '1.2' ? 'TLSv1.2' : 'TLSv1.3'),
+    // eslint-disable-next-line unicorn/no-nested-ternary
+    maxVersion: tls === '1.0' ? 'TLSv1' : (tls === '1.1' ? 'TLSv1.1' : tls === '1.2' ? 'TLSv1.2' : 'TLSv1.3') })
 
   return [ client, () => tcpClient.connect(443, ip) ]
 }
@@ -34,10 +39,12 @@ export async function customFetch(_url: string | URL, options?: CustomRequest): 
   const url = typeof _url === 'string' ? withHttps(_url, true) : _url
   const protocol = url.protocol.replace(':', '')
   const ip = choose(await getDnsRecords(url.hostname, 'A') ?? await getDnsRecords(url.hostname, 'AAAA')).address
-  const [ socket, doConnect ] = getSocket(protocol, ip, url.hostname)
+  const [ socket, doConnect ] = getSocket(protocol, ip, url.hostname, options?.tls ?? '1.3')
 
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
+
+    socket.on('error', reject)
 
     socket.once(protocol === 'https' ? 'secureConnect' : 'connect', () => {
       const defaultHeaders = {
