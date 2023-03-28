@@ -13,4 +13,52 @@ on:
     - synchronize
 
 jobs:
-  
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3
+    - uses: actions/setup-node@3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3
+    - uses: actions/setup-node@3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run typecheck
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3
+    - uses: actions/setup-node@3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run test
+
+  license:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3
+    - uses: actions/setup-node@3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run license
+
+  unimported:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3
+    - uses: actions/setup-node@3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run unimported
