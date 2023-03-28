@@ -2,8 +2,8 @@ import { CheckPlugin } from './index'
 
 
 export const plugin: CheckPlugin = {
-  name: 'check-certificate-revocation',
-  description: 'Check if the site is using a revoked certificate',
+  name: 'check-caa',
+  description: 'Check if the site has a CAA record',
   type: 'check',
   run: async (options, saveResult, saveError) => {
     // TODO check

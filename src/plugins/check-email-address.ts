@@ -9,7 +9,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if HTTP requests are redirected to HTTPS',
   run: async (options, saveResult) => {
     await crawl(withHttp(options.site).href)
-    await Promise.allSettled(Object.entries(getAllCrawledAssets()).map(async ([ url, httpsResponse ]) => {
+    await Promise.allSettled(Object.entries(getAllCrawledAssets()).map(async ([ _url, httpsResponse ]) => {
       for (const email of httpsResponse.body.matchAll(/(?<email>[\w+.-_]+@[\w+.-_]+)/gi)) {
         if (email.groups?.email.startsWith('http')) {
           continue

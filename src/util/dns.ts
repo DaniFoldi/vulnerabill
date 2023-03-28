@@ -51,12 +51,15 @@ type SpecificDnsRecord<T extends keyof typeof recordTypes> = DnsRecord & { type:
 cacheRootServers()
 
 
-export async function getDnsRecords<T extends keyof typeof recordTypes>(zone: string, type: T): Promise<Array<SpecificDnsRecord<T>>> {
+export async function getDnsRecords<T extends keyof typeof recordTypes>(zone: string, type: T):
+  Promise<Array<SpecificDnsRecord<T>>> {
   const response = dnsCache[`${type}+${zone}`]
   if (response && response.length > 0) {
+    // @ts-expect-error TypeScript can't infer this
     return response
   }
   try {
+    // @ts-expect-error TypeScript can't infer this
     await queryDnsServer(zone, type, getNameServer('').address)
     const zones = zone.split('.').filter(Boolean)
     for (let i = 0; i < zones.length; i++) {
@@ -64,6 +67,7 @@ export async function getDnsRecords<T extends keyof typeof recordTypes>(zone: st
       await queryDnsServer(zone, type, getNameServer(subzone).address)
     }
 
+    // @ts-expect-error TypeScript can't infer this
     return dnsCache[`${type}+${zone}`] ?? []
   } catch {
     // Mitigate packet loss, malformed responses, etc. by retrying
@@ -77,13 +81,6 @@ function getNameServer(zone: string): DnsRecord | undefined {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return choose(dnsCache[`A+${choose(ns).hostname}`]!)
   }
-}
-
-export async function queryDns(zone: string, type: keyof typeof recordTypes, server: string): Promise<DnsRecord[]> {
-  if (!dnsCache[`${type}+${zone}`]) {
-    await queryDnsServer(zone, type, server)
-  }
-  return dnsCache[`${type}+${zone}`] ?? []
 }
 
 function queryDnsServer(zone: string, type: keyof typeof recordTypes, server: string): Promise<void> {
@@ -126,12 +123,12 @@ function queryDnsServer(zone: string, type: keyof typeof recordTypes, server: st
           }
 
           for (const record of records) {
+            // @ts-expect-error TypeScript can't infer this
             (dnsCache[key] ??= []).push(record)
           }
         }
       } catch (error) {
-        console.error(`Error during DNS response parsing ${zone} ${type}`)
-        console.error((error as Error).cause)
+        throw new Error(`Error during DNS response parsing ${zone} ${type}: ${(error as Error).cause}`)
       }
       socket.close()
       resolve()
@@ -159,18 +156,21 @@ function parseDnsResponse(buffer: Buffer): typeof dnsCache {
 
   for (let i = 0; i < ancount; i++) {
     const [ zone, record, _offset ] = parseDnsRecord(buffer, offset);
+    // @ts-expect-error TypeScript can't infer this
     (records[`${record.type}+${zone}`] ??= []).push(record)
     offset = _offset
   }
 
   for (let i = 0; i < nscount; i++) {
     const [ zone, record, _offset ] = parseDnsRecord(buffer, offset);
+    // @ts-expect-error TypeScript can't infer this
     (records[`${record.type}+${zone}`] ??= []).push(record)
     offset = _offset
   }
 
   for (let i = 0; i < arcount; i++) {
     const [ zone, record, _offset ] = parseDnsRecord(buffer, offset);
+    // @ts-expect-error TypeScript can't infer this
     (records[`${record.type}+${zone}`] ??= []).push(record)
     offset = _offset
   }
@@ -178,6 +178,7 @@ function parseDnsResponse(buffer: Buffer): typeof dnsCache {
   return records
 }
 
+// @ts-expect-error the default case catches everything
 function parseDnsRecord(buffer: Buffer, offset: number): [string, DnsRecord, number] {
   const [ _zone, _offset ] = readDnsName(buffer, offset)
   const zone = _zone.join('.')

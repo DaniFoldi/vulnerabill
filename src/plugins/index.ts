@@ -1,3 +1,4 @@
+import { plugin as checkCaa } from './check-caa'
 import { plugin as checkCertificateRevocation } from './check-certificate-revocation'
 import { plugin as checkConfigFiles } from './check-config-files'
 import { plugin as checkCors } from './check-cors'
@@ -18,6 +19,7 @@ import type { Options } from '../parser'
 
 
 export default [
+  checkCaa,
   checkCertificateRevocation,
   checkConfigFiles,
   checkCors,

@@ -5,7 +5,7 @@ export const plugin: OutputPlugin = {
   name: 'output-github-actions',
   type: 'output',
   run: async (options, results, errors) => {
-
+    // TODO implement
   }
 }
 

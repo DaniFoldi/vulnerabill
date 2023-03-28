@@ -41,7 +41,7 @@ export async function crawl(site: string) {
 
 export function getAllCrawledAssets(): Record<string, CustomResponse> {
   return Object.fromEntries(Object.entries(cache)
-    .filter(([ url, response ]) => response.status >= 200 && response.status <= 299))
+    .filter(([ _url, response ]) => response.status >= 200 && response.status <= 299))
 }
 
 if (import.meta.vitest) {

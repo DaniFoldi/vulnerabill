@@ -9,7 +9,7 @@ export const plugin: CheckPlugin = {
   type: 'check',
   run: async (options, saveResult, saveError) => {
     try {
-      const response0 = await customFetch(withHttps(options.site), { tls: '1.0' })
+      await customFetch(withHttps(options.site), { tls: '1.0' })
       saveResult({
         confidence: 5,
         title: 'TLS 1.0 is supported',
@@ -28,7 +28,7 @@ export const plugin: CheckPlugin = {
       })
     }
     try {
-      const response1 = await customFetch(withHttps(options.site), { tls: '1.1' })
+     await customFetch(withHttps(options.site), { tls: '1.1' })
       saveResult({
         confidence: 5,
         title: 'TLS 1.0 is supported',
@@ -46,7 +46,7 @@ export const plugin: CheckPlugin = {
       })
     }
     try {
-      const response2 = await customFetch(withHttps(options.site))
+      await customFetch(withHttps(options.site))
       saveResult({
         confidence: 5,
         title: 'TLS 1.2 is supported',
@@ -64,7 +64,7 @@ export const plugin: CheckPlugin = {
       })
     }
     try {
-      const response3 = await customFetch(withHttps(options.site), { tls: '1.3' })
+      await customFetch(withHttps(options.site), { tls: '1.3' })
       saveResult({
         confidence: 5,
         title: 'TLS 1.3 is supported',

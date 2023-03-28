@@ -6,7 +6,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site is using a valid TLS certificate',
   type: 'check',
   run: async (options, saveResult, saveError) => {
-
+    // TODO verify certificate
   }
 }
 

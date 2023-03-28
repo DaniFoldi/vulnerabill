@@ -10,9 +10,7 @@ export const plugin: CheckPlugin = {
     const dnskey = await getDnsRecords(options.site, 'DNSKEY')
     const ds = await getDnsRecords(superdomain(options.site), 'DS')
 
-    if (dnskey.length > 0 && ds.length > 0) {
-
-    }
+    if (dnskey.length > 0 && ds.length > 0) {}
   }
 }
 
