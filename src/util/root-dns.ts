@@ -32,7 +32,7 @@ export const rootServers6 = {
 }
 
 if (import.meta.vitest) {
-  const {it, expect} = import.meta.vitest
+  const { it, expect } = import.meta.vitest
 
   it('should have 13 root servers', () => {
     expect(Object.keys(rootServers4)).toHaveLength(13)

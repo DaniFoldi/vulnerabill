@@ -8,7 +8,7 @@ export async function getServer(website: string): Promise<'cloudflare' | 'apache
 }
 
 if (import.meta.vitest) {
-  const {it, expect} = import.meta.vitest
+  const { it, expect } = import.meta.vitest
 
   it('should get server cloudflare', async () => {
     const server = await getServer('https://www.cloudflare.com')

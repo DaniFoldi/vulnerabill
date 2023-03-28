@@ -1,4 +1,5 @@
-import {CheckPlugin} from "./index";
+import { CheckPlugin } from './index'
+
 
 export const plugin: CheckPlugin = {
   name: 'check-certificate-revocation',

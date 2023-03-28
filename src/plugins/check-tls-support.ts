@@ -64,7 +64,7 @@ export const plugin: CheckPlugin = {
       })
     }
     try {
-      const response3 = await customFetch(withHttps(options.site), {tls: '1.3'})
+      const response3 = await customFetch(withHttps(options.site), { tls: '1.3' })
       saveResult({
         confidence: 5,
         title: 'TLS 1.3 is supported',

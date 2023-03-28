@@ -17,8 +17,8 @@ export const plugin: CheckPlugin = {
           confidence: 5,
           message: `Your site contains potential source code in ${new URL(source, withHttps(options.site))}`,
           title: 'Potential source code found',
-          description: 'The site contains potential source code that can be used by attackers to find vulnerabilities in your site.' +
-              'These files should be removed from the site.',
+          description: 'The site contains potential source code that can be used by attackers to find vulnerabilities in your site.'
+              + 'These files should be removed from the site.',
           severity: 5
         })
       }

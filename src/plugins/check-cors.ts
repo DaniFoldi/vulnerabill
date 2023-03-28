@@ -1,5 +1,6 @@
-import {CheckPlugin} from "./index";
-import {customFetch} from "../util/custom-fetch";
+import { customFetch } from '../util/custom-fetch'
+import { CheckPlugin } from './index'
+
 
 export const plugin: CheckPlugin = {
   name: 'check-cors',

@@ -1,5 +1,5 @@
+import { crawl, getAllCrawledAssets } from '../util/crawl'
 import { CheckPlugin } from './index'
-import {crawl, getAllCrawledAssets} from "../util/crawl";
 
 
 export const plugin: CheckPlugin = {

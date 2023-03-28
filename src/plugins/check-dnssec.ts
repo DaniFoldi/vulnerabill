@@ -1,4 +1,4 @@
-import {getDnsRecords, superdomain} from '../util/dns'
+import { getDnsRecords, superdomain } from '../util/dns'
 import type { CheckPlugin } from './index'
 
 

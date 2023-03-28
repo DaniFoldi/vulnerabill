@@ -47,7 +47,7 @@ export const plugin: CheckPlugin = {
       saveResult({
         confidence: 5,
         title: 'Configuration/administration files not found',
-        message: `Your site does not have accessible configuration/administration files`,
+        message: 'Your site does not have accessible configuration/administration files',
         severity: 0,
         description: 'Configuration/administration files should not be accessible to prevent information leakage.'
       })

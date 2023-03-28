@@ -107,13 +107,13 @@ if (import.meta.vitest) {
   const { expect, it } = import.meta.vitest
 
   it('should return tls socket', () => {
-    const [ socket] = getSocket('https', '0.0.0.0', 'example.com')
+    const [ socket ] = getSocket('https', '0.0.0.0', 'example.com')
 
     expect(socket).toBeInstanceOf(TLSSocket)
   })
 
   it('should return tcp socket', () => {
-    const [ socket] = getSocket('http', '0.0.0.0', 'example.com')
+    const [ socket ] = getSocket('http', '0.0.0.0', 'example.com')
 
     expect(socket).toBeInstanceOf(Socket)
   })
