@@ -16,8 +16,8 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3
-    - uses: actions/setup-node@3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 18
     - run: npm ci
@@ -26,8 +26,8 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3
-    - uses: actions/setup-node@3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 18
     - run: npm ci
@@ -36,8 +36,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3
-    - uses: actions/setup-node@3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 18
     - run: npm ci
@@ -46,8 +46,8 @@ jobs:
   license:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3
-    - uses: actions/setup-node@3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 18
     - run: npm ci
@@ -56,8 +56,8 @@ jobs:
   unimported:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3
-    - uses: actions/setup-node@3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 18
     - run: npm ci
