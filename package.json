@@ -30,7 +30,9 @@
   ],
   "author": "DaniFoldi",
   "license": "MIT",
-  "files": [ "dist" ],
+  "files": [
+    "dist"
+  ],
   "bugs": {
     "url": "https://github.com/DaniFoldi/vulnerabill/issues"
   },
@@ -46,6 +48,7 @@
     "license-checker": "^25.0.1",
     "pkg": "^5.8.1",
     "typescript": "^5.0.2",
+    "unimported": "^1.26.0",
     "vitest": "^0.29.8"
   },
   "dependencies": {
