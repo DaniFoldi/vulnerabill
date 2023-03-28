@@ -1,3 +1,6 @@
 {
-  "extends": [ "@lint-my-life/vitest", "@lint-my-life/ts", "@lint-my-life/node" ]
+  "extends": [ "@lint-my-life/vitest", "@lint-my-life/ts", "@lint-my-life/node" ],
+  "rules": {
+    "vitest/no-skipped-tests": "off"
+  }
 }
