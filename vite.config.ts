@@ -9,6 +9,7 @@ export default defineConfig({
       include: [ 'src/**' ]
     },
     include: [ 'src/**' ],
-    exclude: [ 'src/cli.ts', 'src/parser.ts' ]
+    exclude: [ 'src/cli.ts', 'src/parser.ts', 'src/util/named.root' ],
+    passWithNoTests: true
   }
 })
