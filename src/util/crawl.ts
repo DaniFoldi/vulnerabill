@@ -43,3 +43,23 @@ export function getAllCrawledAssets(): Record<string, CustomResponse> {
   return Object.fromEntries(Object.entries(cache)
     .filter(([ url, response ]) => response.status >= 200 && response.status <= 299))
 }
+
+if (import.meta.vitest) {
+  const { expect, it } = import.meta.vitest
+
+  it('should only return same-origin links', async () => {
+    const links = sameOriginLinks('https://example.com', `
+      <a href="https://example.com/https">same</a>
+      <a href="https://example.org/https">different</a>
+      <a href=http://example.com/http>same http</a>
+      <a href=http://example.org/nttp>different http</a>
+      <a href='/relative'>relative</a>
+      <a href='https://example.org/relative'>different tld</a>
+    `)
+
+    expect(links).toEqual([
+      'https://example.com/https',
+      'https://example.com/relative'
+    ])
+  })
+}

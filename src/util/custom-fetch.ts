@@ -21,7 +21,7 @@ export interface CustomResponse {
   status: number
 }
 
-function getSocket(protocol: string, ip: string, host: string, tls: CustomRequest['tls']): [Socket | TLSSocket, () => void] {
+function getSocket(protocol: string, ip: string, host: string, tls: CustomRequest['tls'] = '1.3'): [Socket | TLSSocket, () => void] {
   const tcpClient = new Socket()
   if (protocol === 'http') {
     return [ tcpClient, () => tcpClient.connect(80, ip) ]
@@ -100,5 +100,21 @@ export async function customFetch(_url: string | URL, options?: CustomRequest): 
       })
     })
     doConnect()
+  })
+}
+
+if (import.meta.vitest) {
+  const { expect, it } = import.meta.vitest
+
+  it('should return tls socket', () => {
+    const [ socket] = getSocket('https', '0.0.0.0', 'example.com')
+
+    expect(socket).toBeInstanceOf(TLSSocket)
+  })
+
+  it('should return tcp socket', () => {
+    const [ socket] = getSocket('http', '0.0.0.0', 'example.com')
+
+    expect(socket).toBeInstanceOf(Socket)
   })
 }

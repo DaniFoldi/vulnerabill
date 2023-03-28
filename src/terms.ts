@@ -31,3 +31,12 @@ export async function ensureTermsAccepted(options: Options) {
   ])
   return answer.accept
 }
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest
+
+  it('should return the correct code', () => {
+    expect(correctCode('https://www.cl.cam.ac.uk')).toBe('45fd837c')
+    expect(correctCode('https://www.example.org')).toBe('09d9c5b1')
+  })
+}

@@ -30,3 +30,12 @@ export const rootServers6 = {
   l: '2001:500:9f::42',
   m: '2001:dc3::35'
 }
+
+if (import.meta.vitest) {
+  const {it, expect} = import.meta.vitest
+
+  it('should have 13 root servers', () => {
+    expect(Object.keys(rootServers4)).toHaveLength(13)
+    expect(Object.keys(rootServers6)).toHaveLength(13)
+  })
+}

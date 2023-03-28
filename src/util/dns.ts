@@ -131,7 +131,7 @@ function queryDnsServer(zone: string, type: keyof typeof recordTypes, server: st
         }
       } catch (error) {
         console.error(`Error during DNS response parsing ${zone} ${type}`)
-        console.error(error.cause)
+        console.error((error as Error).cause)
       }
       socket.close()
       resolve()
