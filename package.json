@@ -7,12 +7,12 @@
     "vulnerabill": "dist/index.js"
   },
   "scripts": {
-    "dev": "npm run bundle -- --sourcemap=inline --define:import.meta.vitest=false",
+    "dev": "npm run bundle -- --sourcemap=inline",
     "prod": "npm run bundle -- --minify --tree-shaking=true && npm run package",
     "license": "license-checker --summary --onlyAllow \"0BSD;Apache*;Apache-2.0;BSD-2-Clause;BSD-3-Clause;CC0-1.0;ISC;MIT;Python-2.0\"",
     "lint": "eslint --ext .cjs,.js,.json,.mjs,.ts,.vue --cache --cache-file .eslintcache --report-unused-disable-directives .",
     "lint:fix": "npm run lint -- --fix",
-    "bundle": "esbuild --bundle src/cli.ts --outfile=dist/index.js --format=cjs --platform=node --target=node18",
+    "bundle": "esbuild --bundle src/cli.ts --outfile=dist/index.js --format=cjs --platform=node --target=node18 --define:import.meta.vitest=false",
     "package": "pkg dist/index.js --compress Brotli --no-bytecode --public-packages \"*\" --public --output vulnerabill",
     "test": "vitest run --coverage --logHeapUsage",
     "typecheck": "tsc --noEmit",
