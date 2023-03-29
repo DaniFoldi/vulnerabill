@@ -92,12 +92,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            output: vulnerabill-linux
-          - os: macos-latest
-            output: vulnerabill-macos
-          - os: windows-latest
-            output: vulnerabill.exe
+        - os: ubuntu-latest
+          output: vulnerabill-linux
+        - os: macos-latest
+          output: vulnerabill-macos
+        - os: windows-latest
+          output: vulnerabill.exe
     needs: needs-release
     if: needs.needs-release.outputs.needs-release == 'true'
     runs-on: ${{ matrix.os }}
