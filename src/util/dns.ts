@@ -64,7 +64,8 @@ export async function getDnsRecords<T extends keyof typeof recordTypes>(zone: st
     const zones = zone.split('.').filter(Boolean)
     for (let i = 0; i < zones.length; i++) {
       const subzone = zones.slice(zones.length - i - 1).join('.')
-      await queryDnsServer(zone, type, getNameServer(subzone).address)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await queryDnsServer(zone, type, getNameServer(subzone)!.address)
     }
 
     // @ts-expect-error TypeScript can't infer this
@@ -75,7 +76,7 @@ export async function getDnsRecords<T extends keyof typeof recordTypes>(zone: st
   }
 }
 
-function getNameServer(zone: string): DnsRecord | undefined {
+function getNameServer(zone: string): SpecificDnsRecord<'A'> | undefined {
   const ns = dnsCache[`NS+${zone}`]
   if (ns && ns.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -204,6 +205,7 @@ function parseDnsRecord(buffer: Buffer, offset: number): [string, DnsRecord, num
     case 'CNAME':
       return [ zone, { type: 'CNAME', ttl, hostname: parseDomainName(buffer, offset) }, offset + rdlength ]
     case 'DNSKEY':
+      // @ts-expect-error TODO fix
       return [ zone, { type: 'DNSKEY', ttl, flags: buffer.readUInt16BE(offset), protocol: buffer.readUInt8(offset + 2), algorithm: buffer.readUInt8(offset + 3), key: buffer.toString('hex', offset + 4, offset + rdlength) }, offset + rdlength ]
     case 'DS':
       return [ zone, { type: 'DS', ttl, tag: buffer.readUInt16BE(offset), algorithm: buffer.readUInt8(offset + 2), digestType: buffer.readUInt8(offset + 3), digest: buffer.toString('hex', offset + 4, offset + rdlength) }, offset + rdlength ]
@@ -214,10 +216,13 @@ function parseDnsRecord(buffer: Buffer, offset: number): [string, DnsRecord, num
     case 'PTR':
       return [ zone, { type: 'PTR', ttl, hostname: parseDomainName(buffer, offset) }, offset + rdlength ]
     case 'RRSIG':
+      // @ts-expect-error TODO fix
       return [ zone, { type: 'RRSIG', ttl, keyTag: buffer.readUInt16BE(offset), algorithm: buffer.readUInt8(offset + 2), digestType: buffer.readUInt8(offset + 3), digest: buffer.toString('hex', offset + 4, offset + rdlength) }, offset + rdlength ]
     case 'SOA':
+      // @ts-expect-error TODO fix
       return [ zone, { type: 'SOA', ttl, mname: parseDomainName(buffer, offset), rname: parseDomainName(buffer, offset + 2), serial: buffer.readUInt32BE(offset + 4), refresh: buffer.readUInt32BE(offset + 8), retry: buffer.readUInt32BE(offset + 12), expire: buffer.readUInt32BE(offset + 16), minimum: buffer.readUInt32BE(offset + 20) }, offset + rdlength ]
     case 'SRV':
+      // @ts-expect-error TODO fix
       return [ zone, { type: 'SRV', ttl, priority: buffer.readUInt16BE(offset), weight: buffer.readUInt16BE(offset + 2), port: buffer.readUInt16BE(offset + 4), target: parseDomainName(buffer, offset + 6) }, offset + rdlength ]
     case 'TXT':
       return [ zone, { type: 'TXT', ttl, data: buffer.toString('ascii', offset, offset + rdlength) }, offset + rdlength ]

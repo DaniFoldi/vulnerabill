@@ -9,6 +9,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
     "types": [ "node", "vitest/importMeta" ]

@@ -28,7 +28,7 @@ export const plugin: CheckPlugin = {
       })
     }
     try {
-     await customFetch(withHttps(options.site), { tls: '1.1' })
+      await customFetch(withHttps(options.site), { tls: '1.1' })
       saveResult({
         confidence: 5,
         title: 'TLS 1.0 is supported',
