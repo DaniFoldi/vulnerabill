@@ -62,3 +62,104 @@ jobs:
         node-version: 18
     - run: npm ci
     - run: npm run unimported
+
+  needs-release:
+    needs:
+    - eslint
+    - typecheck
+    - test
+    - license
+    - unimported
+    runs-on: ubuntu-latest
+    outputs:
+      current-release: ${{ steps.current-version.outputs.version }}
+      needs-release: ${{ steps.needs-release.outputs.needs-release }}
+      latest-release: ${{ steps.latest-release.outputs.latest-release }}
+    steps:
+    - uses: actions/checkout@v3
+    - id: current-version
+      run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
+    - id: needs-release
+      run:
+        (gh release view ${{ steps.current-version.outputs.version }} --json "tagName" \
+         && echo "::set-output name=needs-release::false" )\
+         || echo "::set-output name=needs-release::true"
+    - id: latest-release
+      run: echo "::set-output name=latest-release::$(gh release view --json tagName --jq .tagName)"
+  collect-binaries:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        output: [vulnerabill-linux, vulnerabill-macos, vulnerabill.exe]
+      include:
+        - os: ubuntu-latest
+          output: vulnerabill-linux
+        - os: macos-latest
+          output: vulnerabill-macos
+        - os: windows-latest
+          output: vulnerabill.exe
+    needs: needs-release
+    if: needs.needs-release.outputs.needs-release == 'true'
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run prod
+    - run: npm run package -- --output ${{ matrix.output }}
+    - uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.output }}
+        path: ${{ matrix.output }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: collect-binaries
+    if: needs.needs-release.outputs.needs-release == 'true'
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: vulnerabill-linux
+    - uses: actions/download-artifact@v3
+      with:
+        name: vulnerabill-macos
+    - uses: actions/download-artifact@v3
+      with:
+        name: vulnerabill.exe
+    - run:
+        echo ${{ secrets.github-token }} | gh auth login --with-token
+        gh auth setup-git
+        git config user.name "GitHub Actions"
+        git tag "v${{ needs.needs-release.outputs.current-release }}" -a -m "${{ github.event.commits[0].message }}"
+        git push origin "v${{ needs.needs-release.outputs.current-release }}"
+    - id: changelog
+      run: |
+        COMMITS=git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.latest-release }}...HEAD
+        BREAKING=$(echo $COMMITS | grep ":zap::zap:")
+        FEATURES=$(echo $COMMITS | grep ":zap:" | grep -v ":zap::zap:")
+        FIXES=$(echo $COMMITS | grep ":hammer:")
+        OTHERS=$(echo $COMMITS | grep -v ":zap:" | grep -v ":hammer:")
+        if [ -n "$BREAKING" ]; then
+          echo "::set-output name=changelog::$(echo -e \"## Breaking changes\")"
+          echo "::set-output name=changelog::$(echo -e \"${BREAKING}\")"
+        fi
+        if [ -n "$FEATURES" ]; then
+          echo "::set-output name=changelog::$(echo -e \"## Features\")"
+          echo "::set-output name=changelog::$(echo -e \"${FEATURES}\")"
+        fi
+        if [ -n "$FIXES" ]; then
+          echo "::set-output name=changelog::$(echo -e \"## Fixes\")"
+          echo "::set-output name=changelog::$(echo -e \"${FIXES}\")"
+        fi
+        if [ -n "$OTHERS" ]; then
+          echo "::set-output name=changelog::$(echo -e \"## Others\")"
+          echo "::set-output name=changelog::$(echo -e \"${OTHERS}\")"
+        fi
+    - run:
+        gh release create --title "v${{ needs.needs-release.outputs.current-release }}" \
+          --notes "${{ steps.changelog.outputs.changelog }}" \
+          "v${{ needs.needs-release.outputs.current-release }}" \
+          vulnerabill-linux vulnerabill-macos vulnerabill.exe
+
