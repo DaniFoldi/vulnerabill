@@ -78,7 +78,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - id: current-version
-      run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+      run: echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
     - run: echo ${{ github.token }} | gh auth login --with-token
     - run: gh auth setup-git
     - id: needs-release
