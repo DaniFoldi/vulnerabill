@@ -92,7 +92,13 @@ jobs:
           echo "needs-release=false") >> $GITHUB_OUTPUT ||
         echo "needs-release=true" >> $GITHUB_OUTPUT
     - id: latest-release
-      run: echo "latest-release=$(gh release view --json tagName --jq .tagName)" >> $GITHUB_OUTPUT
+      run:
+        V=$(gh release view --json tagName --jq .tagName)
+        if [ -n "$V" ]; then
+          echo "latest-release=v$V" >> $GITHUB_OUTPUT
+        else
+          echo "latest-release=" >> $GITHUB_OUTPUT
+        fi
   collect-binaries:
     strategy:
       matrix:
