@@ -78,16 +78,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - id: current-version
-      run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
+      run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
     - run: echo ${{ github.token }} | gh auth login --with-token
     - run: gh auth setup-git
     - id: needs-release
       run:
         (gh release view ${{ steps.current-version.outputs.version }} --json "tagName" &&
-          echo "::set-output name=needs-release::false") ||
-        echo "::set-output name=needs-release::true"
+          echo "needs-release=false") >> $GITHUB_OUTPUT ||
+        echo "needs-release=true" >> $GITHUB_OUTPUT
     - id: latest-release
-      run: echo "::set-output name=latest-release::$(gh release view --json tagName --jq .tagName)"
+      run: echo "latest-release=$(gh release view --json tagName --jq .tagName)" >> $GITHUB_OUTPUT
   collect-binaries:
     strategy:
       matrix:
@@ -129,7 +129,7 @@ jobs:
       with:
         name: vulnerabill.exe
     - run:
-        echo ${{ secrets.github-token }} | gh auth login --with-token
+        echo ${{ github.token }} | gh auth login --with-token
         gh auth setup-git
         git config user.name "GitHub Actions"
         git tag "v${{ needs.needs-release.outputs.current-release }}" -a -m "${{ github.event.commits[0].message }}"
@@ -142,20 +142,20 @@ jobs:
         FIXES=$(echo $COMMITS | grep ":hammer:")
         OTHERS=$(echo $COMMITS | grep -v ":zap:" | grep -v ":hammer:")
         if [ -n "$BREAKING" ]; then
-          echo "::set-output name=changelog::$(echo -e \"## Breaking changes\")"
-          echo "::set-output name=changelog::$(echo -e \"${BREAKING}\")"
+          echo "changelog=$(echo -e \"## Breaking changes\")" >> $GITHUB_OUTPUT
+          echo "changelog=$(echo -e \"${BREAKING}\")" >> $GITHUB_OUTPUT
         fi
         if [ -n "$FEATURES" ]; then
-          echo "::set-output name=changelog::$(echo -e \"## Features\")"
-          echo "::set-output name=changelog::$(echo -e \"${FEATURES}\")"
+          echo "changelog=$(echo -e \"## Features\")" >> $GITHUB_OUTPUT
+          echo "changelog=$(echo -e \"${FEATURES}\")" >> $GITHUB_OUTPUT
         fi
         if [ -n "$FIXES" ]; then
-          echo "::set-output name=changelog::$(echo -e \"## Fixes\")"
-          echo "::set-output name=changelog::$(echo -e \"${FIXES}\")"
+          echo "changelog=$(echo -e \"## Fixes\")" >> $GITHUB_OUTPUT
+          echo "changelog=$(echo -e \"${FIXES}\")" >> $GITHUB_OUTPUT
         fi
         if [ -n "$OTHERS" ]; then
-          echo "::set-output name=changelog::$(echo -e \"## Others\")"
-          echo "::set-output name=changelog::$(echo -e \"${OTHERS}\")"
+          echo "changelog=$(echo -e \"## Others\")" >> $GITHUB_OUTPUT
+          echo "changelog=$(echo -e \"${OTHERS}\")" >> $GITHUB_OUTPUT
         fi
     - run:
         gh release create --title "v${{ needs.needs-release.outputs.current-release }}" \
