@@ -136,7 +136,7 @@ jobs:
     - run: git push origin "v${{ needs.needs-release.outputs.current-release }}"
     - id: changelog
       run: |
-        COMMITS=git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.latest-release }}...HEAD
+        COMMITS=$(git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.latest-release }}...HEAD)
         BREAKING=$(echo $COMMITS | grep ":zap::zap:")
         FEATURES=$(echo $COMMITS | grep ":zap:" | grep -v ":zap::zap:")
         FIXES=$(echo $COMMITS | grep ":hammer:")
