@@ -78,7 +78,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - id: current-version
-      run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
     - run: echo ${{ github.token }} | gh auth login --with-token
     - run: gh auth setup-git
     - id: needs-release
@@ -138,7 +138,7 @@ jobs:
     - run: git push origin "v${{ needs.needs-release.outputs.current-release }}"
     - id: changelog
       run: |
-        COMMITS=$(git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.latest-release }}...HEAD)
+        COMMITS=$(git log --pretty="%s (@%an)" v${{ needs.needs-release.outputs.latest-release }}...HEAD)
         BREAKING=$(echo $COMMITS | grep ":zap::zap:")
         FEATURES=$(echo $COMMITS | grep ":zap:" | grep -v ":zap::zap:")
         FIXES=$(echo $COMMITS | grep ":hammer:")
