@@ -79,7 +79,7 @@ jobs:
     outputs:
       current-release: ${{ steps.current-version.outputs.version }}
       needs-release: ${{ steps.needs-release.outputs.needs-release }}
-      latest-release: ${{ steps.latest-release.outputs.latest-release }}
+      changelog: ${{ steps.changelog.outputs.changelog }}
     steps:
     - uses: actions/checkout@v3
     - id: current-version
@@ -91,12 +91,12 @@ jobs:
         (gh release view ${{ steps.current-version.outputs.version }} --json "tagName" &&
           echo "needs-release=false") >> $GITHUB_OUTPUT ||
         echo "needs-release=true" >> $GITHUB_OUTPUT
-    - id: latest-release
+    - id: changelog
       run: |
         if [ -n "$(gh release view --json tagName --jq .tagName)" ]; then
-          echo "latest-release=v$(gh release view --json tagName --jq .tagName)" >> $GITHUB_OUTPUT
+          echo "changelog=v$(gh release view --json tagName --jq .tagName)...HEAD" >> $GITHUB_OUTPUT
         else
-          echo "latest-release=" >> $GITHUB_OUTPUT
+          echo "changelog=" >> $GITHUB_OUTPUT
         fi
   collect-binaries:
     strategy:
@@ -149,7 +149,7 @@ jobs:
     - run: git push origin "v${{ needs.needs-release.outputs.current-release }}"
     - id: changelog
       run: |
-        COMMITS=$(git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.latest-release }}...HEAD)
+        COMMITS=$(git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }})
         BREAKING=$(echo $COMMITS | grep ":zap::zap:")
         FEATURES=$(echo $COMMITS | grep ":zap:" | grep -v ":zap::zap:")
         FIXES=$(echo $COMMITS | grep ":hammer:")
