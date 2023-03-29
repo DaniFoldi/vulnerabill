@@ -29,8 +29,8 @@ const splitLines = (text: string): string[] => {
 
   return lines
 }
-const fancyLog = (value: string) => splitLines(value).forEach(line => console.log(`⏐     ${sanitizedPad(line, lineLength)}     ⏐`))
-const emptyLine = `⏐     ${sanitizedPad('', lineLength)}     ⏐` // '⏐                                                                              ⏐'
+const fancyLog = (value: string) => splitLines(value).forEach(line => console.log(`${chalk.white('⏐')}     ${sanitizedPad(line, lineLength)}     ${chalk.white('⏐')}`))
+const emptyLine = `⏐     ${sanitizedPad('', lineLength)}     ⏐`
 const divider = '⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯'
 const insertDivider = () => {
   console.log(emptyLine)
