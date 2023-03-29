@@ -82,7 +82,7 @@ jobs:
     - id: needs-release
       run:
         (gh release view ${{ steps.current-version.outputs.version }} --json "tagName" \
-         && echo "::set-output name=needs-release::false" )\
+         && echo "::set-output name=needs-release::false") \
          || echo "::set-output name=needs-release::true"
     - id: latest-release
       run: echo "::set-output name=latest-release::$(gh release view --json tagName --jq .tagName)"
