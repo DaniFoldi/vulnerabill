@@ -128,12 +128,11 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: vulnerabill.exe
-    - run:
-        echo ${{ github.token }} | gh auth login --with-token
-        gh auth setup-git
-        git config user.name "GitHub Actions"
-        git tag "v${{ needs.needs-release.outputs.current-release }}" -a -m "${{ github.event.commits[0].message }}"
-        git push origin "v${{ needs.needs-release.outputs.current-release }}"
+    - run: echo ${{ github.token }} | gh auth login --with-token
+    - run: gh auth setup-git
+    - run: git config user.name "GitHub Actions"
+    - run: git tag "v${{ needs.needs-release.outputs.current-release }}" -a -m "${{ github.event.commits[0].message }}"
+    - run: git push origin "v${{ needs.needs-release.outputs.current-release }}"
     - id: changelog
       run: |
         COMMITS=git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.latest-release }}...HEAD
