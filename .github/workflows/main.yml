@@ -92,7 +92,7 @@ jobs:
           echo "needs-release=false") >> $GITHUB_OUTPUT ||
         echo "needs-release=true" >> $GITHUB_OUTPUT
     - id: latest-release
-      run:
+      run: |
         if [ -n "$(gh release view --json tagName --jq .tagName)" ]; then
           echo "latest-release=v$(gh release view --json tagName --jq .tagName)" >> $GITHUB_OUTPUT
         else
