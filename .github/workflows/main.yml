@@ -154,20 +154,24 @@ jobs:
         FIXES=$(git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }} | grep ":hammer:")
         OTHERS=$(git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }} | grep -v ":zap:" | grep -v ":hammer:")
         if [ -n "$BREAKING" ]; then
-          echo "changelog=$(echo -e "## Breaking changes")" >> "RELEASE.md"
-          echo "changelog=$(echo -e "${BREAKING}")" >> "RELEASE.md"
+          echo "## Breaking Changes" >> "RELEASE.md"
+          git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }} | grep -v ":zap::zap:" >> "RELEASE.md"
+          echo -e "\n" >> RELEASE.md
         fi
         if [ -n "$FEATURES" ]; then
-          echo "changelog=$(echo -e "## Features")" >> "RELEASE.md"
-          echo "changelog=$(echo -e "${FEATURES}")" >> "RELEASE.md"
+          echo "## Features" >> "RELEASE.md"
+          git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }} | grep ":zap:" | grep -v ":zap::zap:" >> "RELEASE.md"
+          echo -e "\n" >> RELEASE.md
         fi
         if [ -n "$FIXES" ]; then
-          echo "changelog=$(echo -e "## Fixes")" >> "RELEASE.md"
-          echo "changelog=$(echo -e "${FIXES}")" >> "RELEASE.md"
+          echo "## Fixes" >> "RELEASE.md"
+          git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }} | grep ":hammer:" >> "RELEASE.md"
+          echo -e "\n" >> RELEASE.md
         fi
         if [ -n "$OTHERS" ]; then
-          echo "changelog=$(echo -e "## Others")" >> "RELEASE.md"
-          echo "changelog=$(echo -e "${OTHERS}")" >> "RELEASE.md"
+          echo "## Others" >> "RELEASE.md"
+          git log --pretty="%s (@%an)" ${{ needs.needs-release.outputs.changelog }} | grep -v ":zap:" | grep -v ":hammer:" >> "RELEASE.md"
+          echo -e "\n" >> RELEASE.md
         fi
     - run:
         gh release create --title "vulnerabill ${{ needs.needs-release.outputs.current-release }}" \
