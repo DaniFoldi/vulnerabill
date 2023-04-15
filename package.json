@@ -41,13 +41,13 @@
     "@lint-my-life/eslint-config-vitest": "^0.2.2",
     "@types/inquirer": "^9.0.3",
     "@types/node": "^18.15.11",
-    "@vitest/coverage-c8": "^0.29.8",
-    "esbuild": "^0.17.15",
+    "@vitest/coverage-c8": "^0.30.1",
+    "esbuild": "^0.17.16",
     "license-checker": "^25.0.1",
     "pkg": "^5.8.1",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "unimported": "^1.26.0",
-    "vitest": "^0.29.8"
+    "vitest": "^0.30.1"
   },
   "dependencies": {
     "chalk": "^5.2.0",
