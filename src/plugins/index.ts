@@ -42,16 +42,14 @@ export default [
 export { plugin as outputStdout } from './output-stdout'
 
 export type CheckResult = {
-  confidence: 1 | 2 | 3 | 4 | 5
+  confidence: 1 | 2 | 3
   description: string
   message: string
-  severity: 0 | 1 | 2 | 3 | 4 | 5
+  severity: 0 | 1 | 2 | 3
   title: string
 }
 
 export type CheckPlugin = {
-  description: string
-  name: string
   run: (options: Options,
         saveResult: (result: CheckResult) => void,
         saveError: (error: string) => void
@@ -60,12 +58,35 @@ export type CheckPlugin = {
 }
 
 export type OutputPlugin = {
-  name: string
   run: (options: Options, results: CheckResult[], errors: string[]) => Promise<void>
   type: 'output'
 }
 
+export type Plugin = (CheckPlugin | OutputPlugin) & {
+  description: string
+  name: string
+  version: 1
+}
+
 if (import.meta.vitest) {
-  const { describe } = import.meta.vitest
-  describe.skip('plugins are not unit tested')
+  const { test, assertType } = import.meta.vitest
+
+  test('check mock plugin type matches', () => {
+    assertType<Plugin>({
+      description: 'mock plugin',
+      name: 'mock-plugin',
+      version: 1,
+      type: 'check',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      run: async (options, saveResult, saveError) => {}
+    })
+    assertType<Plugin>({
+      description: 'mock plugin',
+      name: 'mock-plugin',
+      version: 1,
+      type: 'output',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      run: async (options, results, errors) => {}
+    })
+  })
 }

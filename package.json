@@ -15,7 +15,7 @@
     "bundle": "esbuild --bundle src/cli.ts --outfile=dist/index.js --format=cjs --platform=node --target=node18 --define:import.meta.vitest=false",
     "package": "pkg dist/index.js --compress Brotli --no-bytecode --public-packages \"*\" --public",
     "test": "vitest run --coverage --logHeapUsage",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vitest typecheck",
     "unimported": "unimported"
   },
   "repository": {
