@@ -29,9 +29,9 @@ const splitLines = (text: string): string[] => {
 
   return lines
 }
-const fancyLog = (value: string) => splitLines(value).forEach(line => console.log(`${chalk.white('⏐')}     ${sanitizedPad(line, lineLength)}     ${chalk.white('⏐')}`))
-const emptyLine = `⏐     ${sanitizedPad('', lineLength)}     ⏐`
-const divider = '⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯'
+const fancyLog = (value: string) => splitLines(value.replaceAll(/(^\||\|$)/g, chalk.reset('|')).replaceAll(/(\|\n\||^\||\|$)/g, `${chalk.reset('|')}\n${chalk.reset('|')}`)).forEach(line => console.log(`${chalk.reset('⏐')}     ${sanitizedPad(line, lineLength)}     ${chalk.reset('⏐')}`))
+const emptyLine = `${chalk.reset('|')}     ${sanitizedPad('', lineLength)}     ${chalk.reset('|')}`
+const divider = chalk.reset('⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯')
 const insertDivider = () => {
   console.log(emptyLine)
   fancyLog(divider)
@@ -43,13 +43,13 @@ export const plugin: OutputPlugin = {
   name: 'output-stdout',
   type: 'output',
   run: async (options, results, errors) => {
-    console.log('⎾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾⏋')
+    console.log(chalk.reset('⎾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾⏋'))
     console.log(emptyLine)
-    console.log(`⏐     ${chalk.blue('▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄')}     ⏐`)
-    console.log(`⏐     ${chalk.blue('██ ███ ██ ██ ██ █████ ▀██ ██ ▄▄▄██ ▄▄▀██▀▄▄▀██ ▄▄▀█▄ ▄██ █████ █████')}     ⏐`)
-    console.log(`⏐     ${chalk.blue('███ █ ███ ██ ██ █████ █ █ ██ ▄▄▄██ ▀▀▄██ ▀▀ ██ ▄▄▀██ ███ █████ █████')}     ⏐`)
-    console.log(`⏐     ${chalk.blue('███▄▀▄███▄▀▀▄██ ▀▀ ██ ██▄ ██ ▀▀▀██ ██ ██ ██ ██ ▀▀ █▀ ▀██ ▀▀ ██ ▀▀ ██')}     ⏐`)
-    console.log(`⏐     ${chalk.blue('▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀')}     ⏐`)
+    console.log(`${chalk.reset('|')}     ${chalk.blue('▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄')}     ${chalk.reset('|')}`)
+    console.log(`${chalk.reset('|')}     ${chalk.blue('██ ███ ██ ██ ██ █████ ▀██ ██ ▄▄▄██ ▄▄▀██▀▄▄▀██ ▄▄▀█▄ ▄██ █████ █████')}     ${chalk.reset('|')}`)
+    console.log(`${chalk.reset('|')}     ${chalk.blue('███ █ ███ ██ ██ █████ █ █ ██ ▄▄▄██ ▀▀▄██ ▀▀ ██ ▄▄▀██ ███ █████ █████')}     ${chalk.reset('|')}`)
+    console.log(`${chalk.reset('|')}     ${chalk.blue('███▄▀▄███▄▀▀▄██ ▀▀ ██ ██▄ ██ ▀▀▀██ ██ ██ ██ ██ ▀▀ █▀ ▀██ ▀▀ ██ ▀▀ ██')}     ${chalk.reset('|')}`)
+    console.log(`${chalk.reset('|')}     ${chalk.blue('▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀')}     ${chalk.reset('|')}`)
     console.log(emptyLine)
     fancyLog(`${chalk.dim('Report for')} ${options.site} ${chalk.dim('scanned at')} ${new Date().toLocaleString()}`)
     console.log(emptyLine)
@@ -62,6 +62,7 @@ export const plugin: OutputPlugin = {
 
     for (const result of results) {
       fancyLog(`${result.severity === 0 ? chalk.green('✔') : chalk.red('✕')} ${chalk.bold(result.title)}`)
+      // TODO replace with keywords
       fancyLog(`${chalk.dim('Severity:')} ${chalk.black.bgRed('[]'.repeat(result.severity))}${chalk.red('[]'.repeat(5 - result.severity))}     ${chalk.dim('Confidence:')} ${chalk.black.bgCyan('[]'.repeat(result.confidence))}${chalk.cyan('[]'.repeat(5 - result.confidence))}`)
       console.log(emptyLine)
       fancyLog(result.message)
@@ -87,7 +88,7 @@ export const plugin: OutputPlugin = {
       console.log(emptyLine)
     }
 
-    console.log('⎿______________________________________________________________________________⏌')
+    console.log(chalk.reset('⎿______________________________________________________________________________⏌'))
   }
 }
 
