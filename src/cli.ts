@@ -28,5 +28,5 @@ import type { CheckResult, OutputPlugin } from './plugins'
       await plugin.run(options, results.push.bind(results), errors.push.bind(errors))
     }
   }
-  await outputPlugin.run(options, results, errors)
+  await outputPlugin.run(options, results.sort((a, b) => a.severity - b.severity), errors)
 })()
