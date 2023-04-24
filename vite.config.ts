@@ -6,10 +6,11 @@ export default defineConfig({
     coverage: {
       all: true,
       excludeNodeModules: true,
-      include: [ 'src/**' ]
+      include: [ 'src/**' ],
+      provider: 'c8'
     },
     include: [ 'src/**' ],
-    exclude: [ 'src/cli.ts', 'src/parser.ts', 'src/util/named.root' ],
+    exclude: [ 'src/cli.ts', 'src/parser.ts', 'src/util/named.root', 'src/util/root-anchors.xml' ],
     passWithNoTests: true
   }
 })
