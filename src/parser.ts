@@ -1,5 +1,5 @@
 import { program } from 'commander'
-import { hasTTY } from 'std-env'
+import {hasTTY, isDebug} from 'std-env'
 import packageJson from '../package.json'
 
 
@@ -10,11 +10,11 @@ export async function getOptions(args = process.argv) {
     .version(packageJson.version)
     .option('-n, --non-interactive', 'Run in non-interactive mode, useful for CI', !hasTTY)
     .option('--accept-terms <string>', 'Enter the special ToS code for a website to skip the confirmation prompt')
-    .option('--output <string>', 'Specify the output mode to use for writing the results', hasTTY ? 'output' : 'github')
-    .option('--builtin-crypto', 'Use runtime-native cryptographic libraries')
-    .option('--builtin-dns', 'Use runtime-native DNS client')
-    .option('--builtin-fetch', 'Use runtime-native fetch instead')
-    .option('--builtin-rng', 'Use runtime-native random number generator')
+    .option('--output <string>', 'Specify the output mode to use for writing the results', 'output')
+    .option('--builtin-crypto', 'Use runtime-native cryptographic libraries', !isDebug)
+    .option('--builtin-dns', 'Use runtime-native DNS client', !isDebug)
+    .option('--builtin-fetch', 'Use runtime-native fetch instead', !isDebug)
+    .option('--builtin-rng', 'Use runtime-native random number generator', !isDebug)
     .argument('<site>', 'Hostname of website to run vulnerabill on')
     .action(site => _site = site)
     .showSuggestionAfterError()

@@ -7,15 +7,16 @@ export const plugin: CheckPlugin = {
   name: 'check-hsts',
   description: 'Check if the site is using HSTS',
   type: 'check',
+  version: 1,
   run: async (options, saveResult, saveError) => {
     const response = await customFetch(withHttps(options.site))
     const hsts = response.headers['strict-transport-security']
     if (!hsts) {
       saveResult({
-        confidence: 5,
+        confidence: 3,
         title: 'HSTS not set',
         message: 'Your site does not have HSTS set',
-        severity: 5,
+        severity: 3,
         description: 'HSTS should be set to prevent downgrade attacks.'
       })
       return
@@ -23,20 +24,20 @@ export const plugin: CheckPlugin = {
 
     if (!hsts.includes('max-age')) {
       saveResult({
-        confidence: 5,
+        confidence: 3,
         title: 'HSTS max-age not set',
         message: 'Your site does not have HSTS max-age set',
-        severity: 5,
+        severity: 3,
         description: 'HSTS max-age should be set to prevent downgrade attacks.'
       })
     }
 
     if (!hsts.includes('includeSubDomains')) {
       saveResult({
-        confidence: 5,
+        confidence: 3,
         title: 'HSTS includeSubDomains not set',
         message: 'Your site does not have HSTS includeSubDomains set',
-        severity: 5,
+        severity: 3,
         description: 'HSTS includeSubDomains should be set to prevent downgrade attacks against subdomains such as "www.".'
       })
     }

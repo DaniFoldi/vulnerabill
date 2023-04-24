@@ -42,6 +42,8 @@ const insertDivider = () => {
 export const plugin: OutputPlugin = {
   name: 'output-stdout',
   type: 'output',
+  version: 1,
+  description: 'Output results to standard output',
   run: async (options, results, errors) => {
     console.log(chalk.reset('⎾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾⏋'))
     console.log(emptyLine)

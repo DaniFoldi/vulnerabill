@@ -1,7 +1,7 @@
-import builtinPlugins, { outputStdout } from './plugins'
+import builtinPlugins, {outputStdout} from './plugins'
 import { getOptions } from './parser'
 import { ensureTermsAccepted, correctCode } from './terms'
-import type { CheckResult, OutputPlugin } from './plugins'
+import type { CheckResult, OutputPlugin, Plugin } from './plugins'
 
 
 ;

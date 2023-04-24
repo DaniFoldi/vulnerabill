@@ -3,9 +3,10 @@ import { createSocket } from 'node:dgram'
 import { randomBytes } from 'node:crypto'
 import { rootServers4, rootServers6 } from './root-dns'
 import { choose } from './random'
+import { trustAnchors } from './trust-anchors'
 
 
-type DnsRecord = {
+export type DnsRecord = {
   ttl: number
 } & (
   | {type: 'A'; address: string}
@@ -43,7 +44,7 @@ const dnsCache: {
   [T in keyof typeof recordTypes as `${T}+${string}`]: Array<SpecificDnsRecord<T>>
 } = {}
 
-type SpecificDnsRecord<T extends keyof typeof recordTypes> = DnsRecord & { type: T }
+export type SpecificDnsRecord<T extends keyof typeof recordTypes> = DnsRecord & { type: T }
 
 // For the purpose of this tool, we ignore DNS cache expiration - unless we query something with a TTL of 1
 // This should be unnoticeable, as all queries are repeated when rerunning the tool
@@ -262,6 +263,12 @@ function cacheRootServers() {
   for (const [ key, value ] of Object.entries(rootServers6)) {
     dnsCache[`AAAA+${key}.root-servers.net`] = [{ ttl: 3600000, type: 'AAAA', address: value }]
   }
+
+  dnsCache['DS+'] = []
+
+  for (const record of trustAnchors) {
+    dnsCache['DS+'].push(record)
+  }
 }
 
 export function superdomain(domain: string) {
@@ -276,5 +283,22 @@ if (import.meta.vitest) {
     expect(superdomain('sub.example.com')).toBe('example.com')
     expect(superdomain('example.com')).toBe('com')
     expect(superdomain('example.co.uk')).toBe('co.uk')
+  })
+
+  it('should contain the root servers', () => {
+    expect(dnsCache['NS+']).toBeDefined()
+    expect(dnsCache['NS+'].length).toBe(13)
+  })
+
+  it('should contain the root servers A records', () => {
+    expect(Object.entries(dnsCache).filter(([ key ]) => key.startsWith('A+'))).toHaveLength(13)
+  })
+
+  it('should contain the root servers AAAA records', () => {
+    expect(Object.entries(dnsCache).filter(([ key ]) => key.startsWith('AAAA+'))).toHaveLength(13)
+  })
+
+  it('should contain two root DS records', () => {
+    expect(Object.entries(dnsCache).filter(([ key ]) => key.startsWith('DS+')).flat()).toHaveLength(2)
   })
 }

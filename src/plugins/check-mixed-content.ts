@@ -6,6 +6,7 @@ export const plugin: CheckPlugin = {
   name: 'check-mixed-content',
   description: 'Check if the site is using mixed content',
   type: 'check',
+  version: 1,
   run: async (options, saveResult, saveError) => {
     await crawl(options.site)
     await Promise.allSettled(Object.entries(getAllCrawledAssets()).map(async ([ url, httpsResponse ]) => {
@@ -15,7 +16,7 @@ export const plugin: CheckPlugin = {
           continue
         }
         saveResult({
-          confidence: 5,
+          confidence: 3,
           title: 'Mixed-content resource found',
           message: `Your site loads a resource "${email.groups?.url}" via plain-text HTTP`,
           severity: 3,

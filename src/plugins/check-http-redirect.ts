@@ -8,6 +8,7 @@ export const plugin: CheckPlugin = {
   name: 'check-http-redirect',
   type: 'check',
   description: 'Check if HTTP requests are redirected to HTTPS',
+  version: 1,
   run: async (options, saveResult) => {
     let found = false
     await crawl(withHttp(options.site).href)
@@ -19,7 +20,7 @@ export const plugin: CheckPlugin = {
         if (response.status !== 301) {
           found = true
           saveResult({
-            confidence: 5,
+            confidence: 3,
             title: 'HTTP request not redirected to HTTPS',
             message: `Your site does not redirect HTTP request to ${withHttp(url)} to HTTPS`,
             severity: 3,
@@ -30,7 +31,7 @@ export const plugin: CheckPlugin = {
 
     if (!found) {
       saveResult({
-        confidence: 5,
+        confidence: 3,
         title: 'HTTP requests are redirected to HTTPS',
         message: 'Your site redirects HTTP requests to HTTPS',
         severity: 0,

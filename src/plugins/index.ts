@@ -55,18 +55,20 @@ export type CheckPlugin = {
         saveError: (error: string) => void
   ) => Promise<void>
   type: 'check'
+  description: string
+  name: string
+  version: 1
 }
 
 export type OutputPlugin = {
   run: (options: Options, results: CheckResult[], errors: string[]) => Promise<void>
   type: 'output'
-}
-
-export type Plugin = (CheckPlugin | OutputPlugin) & {
   description: string
   name: string
   version: 1
 }
+
+export type Plugin = CheckPlugin | OutputPlugin
 
 if (import.meta.vitest) {
   const { test, assertType } = import.meta.vitest

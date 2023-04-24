@@ -5,6 +5,7 @@ export const plugin: CheckPlugin = {
   name: 'check-caa',
   description: 'Check if the site has a CAA record',
   type: 'check',
+  version: 1,
   run: async (options, saveResult, saveError) => {
     // TODO check
   }

@@ -5,6 +5,7 @@ export const plugin: CheckPlugin = {
   name: 'check-certificate-revocation',
   description: 'Check if the site is using a revoked certificate',
   type: 'check',
+  version: 1,
   run: async (options, saveResult, saveError) => {
     // TODO check
   }

@@ -62,4 +62,11 @@ if (import.meta.vitest) {
       'https://example.com/relative'
     ])
   })
+
+  it('overrides cache entries', async () => {
+    addCrawled('https://example.com', { body: '1', status: 200, headers: {} })
+    addCrawled('https://example.com', { body: '2', status: 200, headers: {} })
+    expect(Object.keys(cache)).toEqual([ 'https://example.com' ])
+    expect(cache['https://example.com'].body).toEqual('2')
+  })
 }

@@ -9,6 +9,7 @@ export const plugin: CheckPlugin = {
   name: 'check-config-files',
   description: 'Check if configuration/administration files are accessible',
   type: 'check',
+  version: 1,
   run: async (options, saveResult, saveError) => {
     const files = [
       '.htaccess', '.htpasswd', '.npmrc', '.yarnrc',
@@ -34,10 +35,10 @@ export const plugin: CheckPlugin = {
       if (response.status < 400) {
         found = true
         saveResult({
-          confidence: 5,
+          confidence: 3,
           title: 'Configuration/administration file accessible',
           message: `Your site has a configuration/administration file accessible at ${file}`,
-          severity: 5,
+          severity: 3,
           description: 'Configuration/administration files should not be accessible to prevent information leakage.'
         })
       }
@@ -45,7 +46,7 @@ export const plugin: CheckPlugin = {
 
     if (!found) {
       saveResult({
-        confidence: 5,
+        confidence: 2,
         title: 'Configuration/administration files not found',
         message: 'Your site does not have accessible configuration/administration files',
         severity: 0,

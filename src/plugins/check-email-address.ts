@@ -6,6 +6,7 @@ import type { CheckPlugin } from './index'
 export const plugin: CheckPlugin = {
   name: 'check-http-redirect',
   type: 'check',
+  version: 1,
   description: 'Check if HTTP requests are redirected to HTTPS',
   run: async (options, saveResult) => {
     await crawl(withHttp(options.site).href)
@@ -15,10 +16,10 @@ export const plugin: CheckPlugin = {
           continue
         }
         saveResult({
-          confidence: 4,
+          confidence: 2,
           title: 'Bot-readable email address found',
           message: `Your site contains an email address "${email.groups?.email}" that can be found by bots`,
-          severity: 4,
+          severity: 2,
           description: 'Email addresses are often used by bots to send spam. '
             + 'To prevent this, you should use a JavaScript snippet to hide your email address from bots.'
         })
