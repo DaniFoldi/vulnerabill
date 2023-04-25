@@ -13,8 +13,8 @@ export const plugin: CheckPlugin = {
     let found = false
     await crawl(withHttp(options.site).href)
     await Promise.allSettled(Object.entries(getAllCrawledAssets())
-      .filter(([ url, response ]) => response.headers['content-type'] === 'text/html')
-      .map(([ url, response ]) => url)
+      .filter(([ _, response ]) => response.headers['content-type'] === 'text/html')
+      .map(([ url, _ ]) => url)
       .map(async url => {
         const response = await customFetch(withHttp(url))
         if (response.status !== 301) {

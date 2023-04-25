@@ -8,7 +8,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site is only accepting secure TLS connections',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     try {
       await customFetch(withHttps(options.site), { tls: '1.0' })
       saveResult({

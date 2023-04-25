@@ -8,7 +8,7 @@ export const plugin: CheckPlugin = {
   description: 'Check properties of the certificate returned',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const response = await customFetch(withHttps(options.site))
     if (response.certificate?.valid_from && Date.parse(response.certificate?.valid_from) < Date.now()) {
       saveResult({

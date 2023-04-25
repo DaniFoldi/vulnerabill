@@ -8,7 +8,7 @@ export const plugin: CheckPlugin = {
   type: 'check',
   version: 1,
   description: 'Check if certain paths are present on the site',
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const potentialSources = [ '/.git', '/src', '/lib', '/.env', '.htaccess', 'nginx.conf', 'default.conf' ]
 
     let found = false

@@ -8,7 +8,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site has recommended headers set',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const response = await customFetch(withHttps(options.site))
     if (response.headers['x-frame-options'] !== 'SAMEORIGIN' && response.headers['x-frame-options'] !== 'DENY' && !response.headers['x-frame-options'].startsWith('ALLOW-FROM')) {
       saveResult({

@@ -8,7 +8,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site has a Content Security Policy',
   version: 1,
   type: 'check',
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const response = await customFetch(withHttps(options.site))
     const csp = response.headers['content-security-policy']
     if (!csp) {

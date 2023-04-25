@@ -80,7 +80,7 @@ if (import.meta.vitest) {
       version: 1,
       type: 'check',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      run: async (options, saveResult, saveError) => {}
+      run: async (_options, _saveResult, _saveError) => {}
     })
     assertType<Plugin>({
       description: 'mock plugin',
@@ -88,7 +88,7 @@ if (import.meta.vitest) {
       version: 1,
       type: 'output',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      run: async (options, results, errors) => {}
+      run: async (_options, _results, _errors) => {}
     })
   })
 }

@@ -30,9 +30,7 @@
   ],
   "author": "DaniFoldi",
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
+  "files": [ "dist" ],
   "bugs": {
     "url": "https://github.com/DaniFoldi/vulnerabill/issues"
   },

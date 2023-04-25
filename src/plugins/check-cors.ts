@@ -7,7 +7,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site has CORS enabled',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const response = await customFetch(options.site)
     const acao = response.headers['access-control-allow-origin']
     if (acao && acao.includes('*')) {

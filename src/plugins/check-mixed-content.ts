@@ -7,9 +7,9 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site is using mixed content',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     await crawl(options.site)
-    await Promise.allSettled(Object.entries(getAllCrawledAssets()).map(async ([ url, httpsResponse ]) => {
+    await Promise.allSettled(Object.entries(getAllCrawledAssets()).map(async ([ _, httpsResponse ]) => {
       for (const email of httpsResponse.body.matchAll(/(?<url>http:\/\/[\w+.-_]+)/gi)) {
         if (email.groups?.url === 'http://www.w3.org/2000/svg') {
           // ignore svg namespace URL

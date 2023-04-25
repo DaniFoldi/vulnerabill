@@ -1,5 +1,5 @@
 import { program } from 'commander'
-import {hasTTY, isDebug} from 'std-env'
+import { hasTTY, isDebug } from 'std-env'
 import packageJson from '../package.json'
 
 

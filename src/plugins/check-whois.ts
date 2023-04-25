@@ -7,7 +7,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the domain has WHOIS privacy',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
 
     // the only thing ignorePrivacy does is remove field values like "redacted for privacy"
     const whois = await domain(options.site, { ignorePrivacy: false })

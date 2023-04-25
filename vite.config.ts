@@ -10,7 +10,7 @@ export default defineConfig({
       provider: 'c8'
     },
     include: [ 'src/**' ],
-    exclude: [ 'src/cli.ts', 'src/parser.ts', 'src/util/named.root', 'src/util/root-anchors.xml' ],
+    exclude: [ 'src/cli.ts', 'src/parser.ts', 'src/util/named.root', 'src/util/root-anchors.xml', 'src/util/whois-server-list.xml' ],
     passWithNoTests: true
   }
 })

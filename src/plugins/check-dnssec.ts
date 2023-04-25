@@ -7,7 +7,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site is using DNSSEC',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const dnskey = await getDnsRecords(options.site, 'DNSKEY')
     const ds = await getDnsRecords(superdomain(options.site), 'DS')
 

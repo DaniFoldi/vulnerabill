@@ -10,7 +10,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if configuration/administration files are accessible',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const files = [
       '.htaccess', '.htpasswd', '.npmrc', '.yarnrc',
       'requirements.txt', 'Gemfile', 'Gemfile.lock', 'composer.json', 'composer.lock', 'yarn.lock',

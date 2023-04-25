@@ -30,9 +30,9 @@ function getSocket(protocol: string, ip: string, host: string, tls: CustomReques
     return [ tcpClient, () => tcpClient.connect(80, ip) ]
   }
   const client = connect(443, host, { socket: tcpClient, servername: host,
-    // eslint-disable-next-line unicorn/no-nested-ternary
+
     minVersion: tls === '1.0' ? 'TLSv1' : (tls === '1.1' ? 'TLSv1.1' : tls === '1.2' ? 'TLSv1.2' : 'TLSv1.3'),
-    // eslint-disable-next-line unicorn/no-nested-ternary
+
     maxVersion: tls === '1.0' ? 'TLSv1' : (tls === '1.1' ? 'TLSv1.1' : tls === '1.2' ? 'TLSv1.2' : 'TLSv1.3') })
 
   return [ client, () => tcpClient.connect(443, ip) ]

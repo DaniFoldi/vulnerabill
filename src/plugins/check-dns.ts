@@ -7,7 +7,7 @@ export const plugin: CheckPlugin = {
   description: 'Check if the site resolves to the same address via all nameservers',
   type: 'check',
   version: 1,
-  run: async (options, saveResult, saveError) => {
+  run: async (options, saveResult, _saveError) => {
     const ipv4 = await getDnsRecords(options.site, 'A')
     const ipv6 = await getDnsRecords(options.site, 'AAAA')
     const ipv4Present = ipv4.length > 0
