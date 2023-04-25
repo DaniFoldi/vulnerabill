@@ -11,7 +11,27 @@ export const plugin: CheckPlugin = {
     const dnskey = await getDnsRecords(options.site, 'DNSKEY')
     const ds = await getDnsRecords(superdomain(options.site), 'DS')
 
-    if (dnskey.length > 0 && ds.length > 0) {}
+    // The implementation temporarily contained a full RRset validation against the signature and RSK/KSK,
+    // but it was removed as it was too brittle and fixing it is beyond the scope of this project.
+    // The best case was _matching_ the behaviour of DNSSEC implementaions in browsers and operating systems.
+    // These would yell if validation failed, so users would likely notice without using Vulnerabill.
+    if (dnskey.length > 0 && ds.length > 0) {
+      saveResult({
+        confidence: 3,
+        title: 'DNSSEC is enabled',
+        message: 'Your site is using DNSSEC',
+        severity: 0,
+        description: 'DNSSEC is a security protocol that authenticates DNS responses and prevents DNS spoofing.'
+      })
+    } else {
+      saveResult({
+        confidence: 3,
+        title: 'DNSSEC is not enabled',
+        message: 'Your site is not using DNSSEC',
+        severity: 2,
+        description: 'DNSSEC is a security protocol that authenticates DNS responses and prevents DNS spoofing.'
+      })
+    }
   }
 }
 

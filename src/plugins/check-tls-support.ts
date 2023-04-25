@@ -19,7 +19,6 @@ export const plugin: CheckPlugin = {
         description: 'TLS 1.0 is insecure and should be disabled to prevent information leakage.'
       })
     } catch {
-      console.log('1.0')
       saveResult({
         confidence: 3,
         title: 'TLS 1.0 is not supported',

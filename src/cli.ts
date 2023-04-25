@@ -1,7 +1,7 @@
 import builtinPlugins, { outputStdout } from './plugins'
 import { getOptions } from './parser'
 import { ensureTermsAccepted, correctCode } from './terms'
-import type { CheckResult, OutputPlugin, Plugin } from './plugins'
+import type { CheckResult, OutputPlugin } from './plugins'
 
 
 ;
@@ -34,5 +34,11 @@ import type { CheckResult, OutputPlugin, Plugin } from './plugins'
       }
     }
   }
-  await outputPlugin.run(options, results.sort((a, b) => a.severity - b.severity), errors)
+  switch (outputPlugin.version) {
+    case 1:
+      await outputPlugin.run(options, results.sort((a, b) => b.severity - a.severity), errors)
+      break
+    default:
+      throw new Error(`Plugin ${outputPlugin.name} has an unsupported version ${outputPlugin.version}`)
+  }
 })()

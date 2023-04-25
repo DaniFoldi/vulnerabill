@@ -1,7 +1,7 @@
 
 import { Socket } from 'node:net'
 import { URL } from 'node:url'
-import { connect, TLSSocket } from 'node:tls'
+import { connect, TLSSocket, PeerCertificate } from 'node:tls'
 import { getDnsRecords } from './dns'
 import { choose } from './random'
 import { withHttps } from './url'
@@ -19,6 +19,9 @@ export interface CustomResponse {
   body: string
   headers: { [key: string]: string }
   status: number
+  alpn?: string
+  certificate?: PeerCertificate
+  cipher?: string
 }
 
 function getSocket(protocol: string, ip: string, host: string, tls: CustomRequest['tls'] = '1.3'): [Socket | TLSSocket, () => void] {
@@ -96,7 +99,10 @@ export async function customFetch(_url: string | URL, options?: CustomRequest): 
       addCrawled(url.toString(), { status, headers, body })
 
       resolve({
-        body, status, headers
+        body, status, headers,
+        alpn: socket instanceof TLSSocket && socket.alpnProtocol ? socket.alpnProtocol : undefined,
+        certificate: socket instanceof TLSSocket ? socket.getPeerCertificate() : undefined,
+        cipher: socket instanceof TLSSocket ? socket.getCipher().name : undefined
       })
     })
     doConnect()

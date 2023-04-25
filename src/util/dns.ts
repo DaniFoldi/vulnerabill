@@ -180,7 +180,6 @@ function parseDnsResponse(buffer: Buffer): typeof dnsCache {
   return records
 }
 
-// @ts-expect-error the default case catches everything
 function parseDnsRecord(buffer: Buffer, offset: number): [string, DnsRecord, number] {
   const [ _zone, _offset ] = readDnsName(buffer, offset)
   const zone = _zone.join('.')
@@ -201,8 +200,7 @@ function parseDnsRecord(buffer: Buffer, offset: number): [string, DnsRecord, num
     case 'AAAA':
       return [ zone, { type: 'AAAA', ttl, address: readipv6(buffer, offset) }, offset + rdlength ]
     case 'CAA':
-      // TODO
-      break
+      return [ zone, { type: 'CAA', ttl, flags: buffer.readUInt8(offset), tag: buffer.toString('ascii', offset + 2, offset + 2 + buffer.readUInt8(offset + 1)), value: buffer.toString('ascii', offset + 2 + buffer.readUInt8(offset + 1), offset + rdlength) }, offset + rdlength ]
     case 'CNAME':
       return [ zone, { type: 'CNAME', ttl, hostname: parseDomainName(buffer, offset) }, offset + rdlength ]
     case 'DNSKEY':
