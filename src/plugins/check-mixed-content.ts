@@ -20,8 +20,7 @@ export const plugin: CheckPlugin = {
           title: 'Mixed-content resource found',
           message: `Your site loads a resource "${email.groups?.url}" via plain-text HTTP`,
           severity: 3,
-          description: 'Email addresses are often used by bots to send spam. '
-            + 'To prevent this, you should use a JavaScript snippet to hide your email address from bots.'
+          description: `Your site loads a resource "${email.groups?.url}" via plain-text HTTP. This is a security risk as it can be intercepted and modified by a third party.`
         })
       }
     }))

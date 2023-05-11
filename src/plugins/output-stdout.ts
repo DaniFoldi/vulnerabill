@@ -8,7 +8,8 @@ const lineLength = 68
 const sanitizeColorChars = (text: string): string => text.replace(/\u001B\[.*?m/gi, '')
 const sanitizedPad = (text: string, length: number): string => {
   const sanitizedLength = sanitizeColorChars(text).length
-  return `${text}${' '.repeat(Math.max(length - sanitizedLength, 0))}`
+  const maxLength = sanitizedLength <= lineLength ? length : 80 + length
+  return `${text}${' '.repeat(Math.max(maxLength - sanitizedLength, 0))}`
 }
 
 const splitLines = (text: string): string[] => {
