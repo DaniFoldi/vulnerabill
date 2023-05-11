@@ -27,7 +27,12 @@ import type { CheckResult, OutputPlugin } from './plugins'
     if (plugin.type === 'check') {
       switch (plugin.version) {
         case 1:
-          await plugin.run(options, results.push.bind(results), errors.push.bind(errors))
+          console.log('Running', plugin.name)
+          try {
+            await plugin.run(options, results.push.bind(results), errors.push.bind(errors))
+          } catch (error) {
+            errors.push(`Plugin ${plugin.name} failed with error ${error}`)
+          }
           break
         default:
           errors.push(`Plugin ${plugin.name} has an unsupported version ${plugin.version}`)

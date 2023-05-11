@@ -41,7 +41,10 @@ function getSocket(protocol: string, ip: string, host: string, tls: CustomReques
 export async function customFetch(_url: string | URL, options?: CustomRequest): Promise<CustomResponse> {
   const url = typeof _url === 'string' ? withHttps(_url, true) : _url
   const protocol = url.protocol.replace(':', '')
-  const ip = choose(await getDnsRecords(url.hostname, 'A') ?? await getDnsRecords(url.hostname, 'AAAA')).address
+  const ip = choose(await getDnsRecords(url.hostname, 'A') ?? await getDnsRecords(url.hostname, 'AAAA'))?.address
+  if (!ip) {
+    throw new Error(`Could not resolve ${url.hostname}`)
+  }
   const [ socket, doConnect ] = getSocket(protocol, ip, url.hostname, options?.tls ?? '1.3')
 
 

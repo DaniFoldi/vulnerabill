@@ -25,7 +25,6 @@ export async function ensureTermsAccepted(options: Options) {
       type: 'confirm',
       name: 'accept',
       default: false,
-      // TODO show ToS
       message: 'By using this tool you agree to the terms of service.'
     }
   ])
