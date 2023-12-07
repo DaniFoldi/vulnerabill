@@ -42,7 +42,7 @@
     "@lint-my-life/eslint-config-ts": "^0.2.2",
     "@lint-my-life/eslint-config-vitest": "^0.2.2",
     "@types/inquirer": "^9.0.3",
-    "@types/node": "^18.16.0",
+    "@types/node": "^20.10.4",
     "@vitest/coverage-c8": "^0.30.1",
     "esbuild": "^0.17.18",
     "license-checker": "^25.0.1",
