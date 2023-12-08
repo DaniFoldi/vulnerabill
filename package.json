@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "chalk": "^5.2.0",
-    "commander": "^10.0.1",
+    "commander": "^11.1.0",
     "inquirer": "^9.2.0",
     "std-env": "^3.3.2",
     "whoiser": "^1.17.1"
