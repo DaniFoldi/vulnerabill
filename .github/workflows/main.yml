@@ -120,7 +120,7 @@ jobs:
     - run: npm ci
     - run: npm run prod
     - run: npm run package -- --output ${{ matrix.output }}
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4
       with:
         name: ${{ matrix.output }}
         path: ${{ matrix.output }}
