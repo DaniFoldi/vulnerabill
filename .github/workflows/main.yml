@@ -16,8 +16,8 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
       with:
         node-version: 18
         cache: npm
@@ -27,8 +27,8 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
       with:
         node-version: 18
         cache: npm
@@ -38,8 +38,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
       with:
         node-version: 18
         cache: npm
@@ -49,8 +49,8 @@ jobs:
   license:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
       with:
         node-version: 18
         cache: npm
@@ -60,8 +60,8 @@ jobs:
   unimported:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
       with:
         node-version: 18
         cache: npm
@@ -81,7 +81,7 @@ jobs:
       needs-release: ${{ steps.needs-release.outputs.needs-release }}
       changelog: ${{ steps.changelog.outputs.changelog }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
     - id: current-version
       run: echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
     - run: echo ${{ github.token }} | gh auth login --with-token
@@ -112,15 +112,15 @@ jobs:
     if: needs.needs-release.outputs.needs-release == 'true'
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
       with:
         node-version: 18
         cache: npm
     - run: npm ci
     - run: npm run prod
     - run: npm run package -- --output ${{ matrix.output }}
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3
       with:
         name: ${{ matrix.output }}
         path: ${{ matrix.output }}
@@ -132,14 +132,14 @@ jobs:
     - collect-binaries
     if: needs.needs-release.outputs.needs-release == 'true'
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+    - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3
       with:
         name: vulnerabill-linux
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3
       with:
         name: vulnerabill-macos
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3
       with:
         name: vulnerabill.exe
     - run: echo ${{ github.token }} | gh auth login --with-token
